@@ -106,33 +106,35 @@ public class Superficie {
 	
 	
 	/**Mete una celula en una posición, devuelve si ha funcionado o no.*/
-	public void meterCelula(Celula celula, Casilla pos)
+	public boolean meterCelula(Celula celula, Casilla pos, StringBuffer datos)
 	{
-
+		boolean comp = false;
 		try
 		{
 			if(this.checkCasillaVacia(pos))
 			{
 				this.superficie[pos.getFila()][pos.getCol()] = celula;
+				comp=true;
 			}
 			else
 			{
-				throw new MeterCelulaException("ERROR. Casilla no vacía. No se puede añadir una nueva celula.");
+				throw new MeterCelulaException("\nERROR. Casilla no vacía o fuera de la superficie. No se puede añadir una nueva celula.\n");
 			}
 		}
 		catch(NullPointerException e)
 		{
 			try {
-				throw new IndicesFueraDeRango("ERROR. Indica una posicion valida");
+				throw new IndicesFueraDeRango("\nERROR. Indica una posicion valida\n");
 			} catch (IndicesFueraDeRango noSePuede) {
-				System.out.println(noSePuede.getMessage());
+				datos.append(noSePuede.getMessage());
 			}
 		} 
 		catch (MeterCelulaException e) 
 		{
-			System.out.println(e.getMessage());
+			datos.append(e.getMessage());
 		}
-
+		
+		return comp;
 	}
 	
 	//=================================================================
@@ -202,8 +204,10 @@ public class Superficie {
 	public boolean checkCasillaVacia(Casilla pos)
 	{
 		boolean comp = false;
-		comp = (superficie[pos.getFila()][pos.getCol()] == null);
-
+		try
+		{
+			comp = (superficie[pos.getFila()][pos.getCol()] == null);
+		}catch(ArrayIndexOutOfBoundsException e){comp = false;}
 		return comp;
 	}
 	
@@ -357,11 +361,13 @@ public class Superficie {
 		{
 			try{throw new IndicesFueraDeRango("ERROR: El archivo no está adaptado a la lógica del juego");}
 			catch(IndicesFueraDeRango e1){System.out.println(e1.getMessage());}
+			comp = false;
 		}
 		catch(ArrayIndexOutOfBoundsException e)
 		{
 			try{throw new IndicesFueraDeRango("ERROR: El archivo no está adaptado a la lógica del juego");}
 			catch(IndicesFueraDeRango e1){System.out.println(e1.getMessage());}
+			comp = false;
 		}
 		catch (FicheroIncompleto e){System.out.println(e.getMessage());}
 		catch (NoSuchElementException e){}

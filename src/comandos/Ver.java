@@ -2,14 +2,14 @@ package comandos;
 
 import Controlador.Controlador;
 
-public class Vaciar implements Comandos{
+public class Ver implements Comandos{
 
 	//=======================================================
 	//						Constructora
 	//=======================================================
 	
-	/**Constructora del comando vaciar.*/
-	public Vaciar()
+	/**Constructora del comando ver.*/
+	public Ver()
 	{
 		
 	}
@@ -17,12 +17,11 @@ public class Vaciar implements Comandos{
 	//						Metodos
 	//=======================================================
 	
-	/**Ejecuta el comando vaciar */
+	/**Ejecuta el comando ver */
 	@Override
 	public StringBuffer ejecuta(Controlador controlador)
 	{
-		controlador.vaciarMundo();
-		return new StringBuffer("Se ha vaciado el mundo.");
+		return controlador.superficieToStringBuffer();
 	}
 
 	//=======================================================
@@ -33,8 +32,8 @@ public class Vaciar implements Comandos{
 	{
 		Comandos comando= null;
 
-			if(cadenaComando[0].equalsIgnoreCase("VACIAR")) comando = new Vaciar();
-
+		if(cadenaComando[0].equalsIgnoreCase("VER")) comando = new Ver();
+		
 		return comando;
 	}
 
@@ -44,7 +43,7 @@ public class Vaciar implements Comandos{
 	@Override
 	public String textoAyuda() {
 		// TODO Auto-generated method stub
-		return "VACIAR: vacía el mundo de células.";
+		return "VER: muestra el mundo.";
 	}
 
 }

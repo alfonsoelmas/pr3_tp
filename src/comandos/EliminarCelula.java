@@ -48,7 +48,7 @@ public class EliminarCelula implements Comandos{
 		return texto;
 	}
 
-	/** Dado una cadenaComando, comprueba que se trata del comando EliminarCelulaSimple, ignorando las
+	/** Dado una cadenaComando, comprueba que se trata del comando EliminarCelula, ignorando las
 	 *  mayusculas y minusculas. A su vez, devuelve el comando o null en caso contrario	 */
 	
 	@Override
@@ -58,26 +58,23 @@ public class EliminarCelula implements Comandos{
 		// TODO Auto-generated method stub
 		Comandos comando= null;
 		//controlamos la excepcion...
-		try
-		{
+
 			if(cadenaComando.length == 3 && cadenaComando[0].equalsIgnoreCase("ELIMINARCELULA")) 
 			{
 					Casilla pos = new Casilla(Integer.parseInt(cadenaComando[1]),Integer.parseInt(cadenaComando[2]));
 					comando = new EliminarCelula(pos);
 			}
-		}
-		//Mantenemos el comando a null, ya que no se ha leido bien.
-		catch(Exception e){ comando = null;}
+
 		
 		return comando;
 	}
 	
-	/** Devuelve un string indicando lo que hace el comando EliminarCelulaSimple */
+	/** Devuelve un string indicando lo que hace el comando EliminarCelula */
 
 	@Override
 	public String textoAyuda() 
 	{
-		return "ELIMINARCELULA f c: Elimina una celula simple en fila columna";
+		return "ELIMINARCELULA f c: Elimina una celula en fila columna";
 	}
 	
 }

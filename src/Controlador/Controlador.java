@@ -98,8 +98,7 @@ public class Controlador {
 			try {
 				throw new IndicesFueraDeRango("ERROR. Mundo no creado.");
 			} catch (IndicesFueraDeRango e1) {
-				System.out.println(e1.getMessage());
-				datos = new StringBuffer("");
+				datos = new StringBuffer(e1.getMessage());
 			}
 		}
 		
@@ -117,7 +116,8 @@ public class Controlador {
 			try {
 				throw new IndicesFueraDeRango("ERROR. Mundo no creado");
 			} catch (IndicesFueraDeRango e1) {
-				System.out.println(e1.getMessage());
+				Salida s = new Salida();
+				s.pintaln(e1.getMessage());
 			}
 		}
 		
@@ -173,9 +173,8 @@ public class Controlador {
 			try {
 				throw new IndicesFueraDeRango("ERROR. Mundo no creado.");
 			} catch (IndicesFueraDeRango e1) {
-				System.out.println(e1.getMessage());
+				datos = new StringBuffer(e1.getMessage());
 			}
-			datos = new StringBuffer("");
 		}
 		return datos;
 	}
@@ -190,10 +189,9 @@ public class Controlador {
 			try {
 				throw new IndicesFueraDeRango("ERROR. Mundo no creado.");
 			} catch (IndicesFueraDeRango e1) {
-				System.out.println(e1.getMessage());
+				datos = new StringBuffer(e1.getMessage());
 			}
-			
-			datos = new StringBuffer("");
+
 		}
 		return datos;
 	}
@@ -202,7 +200,6 @@ public class Controlador {
 	public StringBuffer cargar(String ruta)
 	{
 		
-		Mundo nuevoMundo = null;
 		File lectura = new File(ruta);
 		StringBuffer datos = new StringBuffer("");
 		
@@ -216,18 +213,18 @@ public class Controlador {
 			{
 				Mundo m = this.mundo;
 				this.mundo = new MundoSimple();
-				if(!mundo.cargar(sc))
+				if(!mundo.cargar(sc, datos))
 				{
 					this.mundo = m;
 					throw new FicheroIncompleto("Error al cargar");
 				}
-				datos.append("Exito.");
+				else{datos.append("Exito.");}
 			}
 			else if(comoEs.equalsIgnoreCase("complejo"))
 			{
 				Mundo m = this.mundo;
 				this.mundo = new MundoComplejo();
-				if(!this.mundo.cargar(sc))
+				if(!this.mundo.cargar(sc, datos))
 				{
 					this.mundo = m;
 					throw new FicheroIncompleto("Error al cargar.");
@@ -255,7 +252,7 @@ public class Controlador {
 			try {
 				throw new FicheroIncompleto("No hay elementos en el archivo");
 			} catch (FicheroIncompleto e1) {
-				System.out.println(e.getMessage());
+				datos.append(e.getMessage());
 			}
 		}
 		

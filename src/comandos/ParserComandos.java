@@ -24,7 +24,8 @@ public class ParserComandos {
 			new Guardar(""),
 			new Cargar(""),
 			new Jugar("", pos, 0 , 0),
-			new Vaciar()
+			new Vaciar(),
+			new Ver()
 	};
 	
 	//=======================================================

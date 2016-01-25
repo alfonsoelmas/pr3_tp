@@ -4,6 +4,7 @@ package logica;
 import java.io.PrintWriter;
 
 import celulas.CelulaSimple;
+import entradaSalida.Salida;
 import excepciones.IndicesFueraDeRango;
 import excepciones.MeterCelulaException;
 import excepciones.NumeroCelulasException;
@@ -32,8 +33,11 @@ public class MundoSimple extends Mundo{
 	public MundoSimple(Casilla casillas, int cSimples)
 	{
 		super(casillas);
+		StringBuffer datos = new StringBuffer("");
 		this.numCelSimples = cSimples;
-		this.inicializaMundo();
+		this.inicializaMundo(datos);
+		Salida salida = new Salida();
+		salida.pintaln(datos);
 	}
 	
 	
@@ -44,14 +48,14 @@ public class MundoSimple extends Mundo{
 	
 	/**Inicializa el mundo con unas dimensiones concretas y un numero de celulas determinado*/
 	@Override
-	public void inicializaMundo()
+	public void inicializaMundo(StringBuffer datos)
 	{
 		this.superficie = new Superficie(this.casillas);
 		
 		try
 		{
 			superficie = new Superficie(this.casillas);
-			if(this.numCelSimples < this.casillas.getCol()*this.casillas.getFila())
+			if(this.numCelSimples <= this.casillas.getCol()*this.casillas.getFila())
 			{
 				for(int i=0; i < numCelSimples; i++)
 				{
@@ -64,7 +68,7 @@ public class MundoSimple extends Mundo{
 						
 					}while(superficie.queCelulaHay(new Casilla(numFil,numCol)) != Superficie.ES_VACIA);
 					
-					superficie.meterCelula(new CelulaSimple(), new Casilla(numFil, numCol));
+					superficie.meterCelula(new CelulaSimple(), new Casilla(numFil, numCol), datos);
 		
 				}
 			}
@@ -74,7 +78,7 @@ public class MundoSimple extends Mundo{
 			}
 		}catch(NumeroCelulasException e)
 		{
-			System.out.println(e.getMessage());
+			datos.append(e.getMessage());
 		}
 		
 	}
@@ -100,12 +104,12 @@ public class MundoSimple extends Mundo{
 		{
 			if(this.superficie.checkCasillaVacia(pos))
 			{
-				this.superficie.meterCelula(new CelulaSimple(), pos);
-				datos.append("Se ha creado una celula simple en" + pos.posToStringBuffer());
+				if(this.superficie.meterCelula(new CelulaSimple(), pos, datos))
+					datos.append("Se ha creado una celula simple en" + pos.posToStringBuffer());
 			}
 			else
 			{
-				throw new MeterCelulaException("La casilla no está vacía.");
+				throw new MeterCelulaException("La casilla no está vacía o está fuera del mundo.");
 			}
 		}
 		catch(NullPointerException | ArrayIndexOutOfBoundsException e)
@@ -113,11 +117,10 @@ public class MundoSimple extends Mundo{
 			try {
 				throw new IndicesFueraDeRango("Posicion fuera del mundo.");
 			} catch (IndicesFueraDeRango e1) {
-				System.out.println(e1.getMessage());
+				datos = new StringBuffer(e1.getMessage());
 			}
 		} catch (MeterCelulaException e) {
-			System.out.println(e.getMessage());
-			datos = null;
+			datos = new StringBuffer(e.getMessage());
 		}
 		
 		return datos;

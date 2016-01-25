@@ -136,7 +136,7 @@ public class CelulaSimple implements Celula{
 	private void reproducete(Casilla casilla, Superficie superficie, StringBuffer cad, Casilla devuelvoLado)
 	{
 		superficie.mueveCelula(casilla, devuelvoLado);
-		superficie.meterCelula(new CelulaSimple(), casilla);
+		superficie.meterCelula(new CelulaSimple(), casilla, null);//En este caso nunca nos va a dar error. por eso el stringBuffer lo pongo a null
 		this.resetea();
 		cad.append("Se ha creado una nueva celula en " + casilla.posToStringBuffer() + "cuyo padre está en " + devuelvoLado.posToStringBuffer());
 	

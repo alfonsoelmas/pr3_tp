@@ -4,6 +4,7 @@ package logica;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
+import entradaSalida.Salida;
 import excepciones.DestruirCelulaException;
 
 import excepciones.FormatoNumeroIncorrecto;
@@ -45,7 +46,7 @@ public abstract class Mundo {
 	//================================
 	
 	/**Metodo abstracto. Inicializa la superficie con una tamaño determinado y unas celulas determinadas */
-	public abstract void inicializaMundo();
+	public abstract void inicializaMundo(StringBuffer datos);
 	
 	/**Metodo abstracto. Guarda el mundo*/
 	public abstract void   guardar(PrintWriter pinto);
@@ -59,7 +60,7 @@ public abstract class Mundo {
 	//===================================
 	
 	/**Metodo abstracto. Carga el mundo. */
-	public boolean cargar(Scanner sc)
+	public boolean cargar(Scanner sc, StringBuffer datos)
 	{
 		boolean comp = true;
 		try
@@ -67,14 +68,14 @@ public abstract class Mundo {
 			int fila = Integer.parseInt(sc.nextLine());
 			int col  = Integer.parseInt(sc.nextLine());
 			this.casillas = new Casilla(fila,col);
-			inicializaMundo();
+			inicializaMundo(datos);
 			comp = this.superficie.cargar(sc);
 		}catch(NumberFormatException e)
 		{
 			try {
-				throw new FormatoNumeroIncorrecto("Formato de numero Incorrecto. Dimension mal interpretada.");
+				throw new FormatoNumeroIncorrecto("\nFormato de numero Incorrecto. Dimension mal interpretada.\n");
 			} catch (FormatoNumeroIncorrecto e1) {
-				System.out.println(e1.getMessage());
+				datos.append(e1.getMessage());
 			}
 			comp = false;
 		}
@@ -109,10 +110,10 @@ public abstract class Mundo {
 			try {
 				throw new IndicesFueraDeRango("Esa posición no se encuentra en la superficie");
 			} catch (IndicesFueraDeRango e1) {
-				System.out.println(e1.getMessage());
+				datos.append(e1.getMessage());
 			}
 		} catch (DestruirCelulaException e) {
-			System.out.println(e.getMessage());
+			datos.append(e.getMessage());
 		}
 		
 		return datos;
@@ -141,9 +142,11 @@ public abstract class Mundo {
 			try {
 				throw new IndicesFueraDeRango("Esa posición no se encuentra en la superficie.");
 			} catch (IndicesFueraDeRango e1) {
-				System.out.println(e1.getMessage());
+				Salida s = new Salida();
+				s.pintaln(e1.getMessage());
 			}
 		}
 		return tipo;
 	}
+
 }

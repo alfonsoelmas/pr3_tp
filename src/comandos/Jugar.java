@@ -1,6 +1,7 @@
 package comandos;
 
 import Controlador.Controlador;
+import entradaSalida.Salida;
 import excepciones.FormatoNumeroIncorrecto;
 import excepciones.PalabraIncorrecta;
 import logica.Casilla;
@@ -96,9 +97,13 @@ public class Jugar implements Comandos{
 		}catch(ArrayIndexOutOfBoundsException e)
 		{
 			try {
-				throw new PalabraIncorrecta("ERROR. Introduce: JUGAR + TIPO DE JUEGO + DIMENSIONFILA + DIMENSION COLUMNA + NUMERO  CELULAS");
+				throw new PalabraIncorrecta("ERROR. Introduce: JUGAR + TIPO DE JUEGO + DIMENSION FILA + DIMENSION COLUMNA"
+						+ " + NUMERO  CELULAS SIMPLE + NUMERO  CELULAS COMPLEJAS. "
+						+ "\n \t \t  Se debe dejar vacio aquellas celulas que no existe en el mundo correspondiente. "
+						+ "\n \t \t  Ejemplo: jugar simple 3 3 4");
 			} catch (PalabraIncorrecta e1) {
-				System.out.println(e1.getMessage());
+				Salida salida = new Salida();
+				salida.pintaln(e1.getMessage());
 			}
 		}
 		return comando;

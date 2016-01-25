@@ -35,20 +35,23 @@ public class MundoComplejo extends Mundo{
 	public MundoComplejo(Casilla casillas, int cSimples, int cComplejas)
 	{
 		super(casillas);
+		StringBuffer datos = new StringBuffer("");
 		this.numCelComplejas = cComplejas;
 		this.numCelSimples   = cSimples;
-		this.inicializaMundo();
+		this.inicializaMundo(datos);
+		Salida salida = new Salida();
+		salida.pinta(datos);
 	}
 	
 	/**Inicializa el mundo creando una superficie y metiendo celulas correspondientes.*/
 	@Override
-	public void inicializaMundo()
+	public void inicializaMundo(StringBuffer datos)
 	{
 	
 		
 		this.superficie = new Superficie(this.casillas);
 		
-		if(this.numCelSimples+this.numCelComplejas < this.casillas.getCol()*this.casillas.getFila())
+		if(this.numCelSimples+this.numCelComplejas <= this.casillas.getCol()*this.casillas.getFila())
 		{
 			
 			//Creamos las células simples...
@@ -62,7 +65,7 @@ public class MundoComplejo extends Mundo{
 					numCol = (int)(Math.random()* this.casillas.getCol());		//desde 0 hasta NumColum
 					
 				}while(!this.superficie.checkCasillaVacia(new Casilla(numFil,numCol)) && this.superficie.cuentaCelulas() < this.casillas.getFila()*this.casillas.getCol());
-				superficie.meterCelula(new CelulaSimple(), new Casilla(numFil,numCol));
+				superficie.meterCelula(new CelulaSimple(), new Casilla(numFil,numCol),datos);
 			}
 			
 			//Creamos las células complejas...
@@ -76,9 +79,9 @@ public class MundoComplejo extends Mundo{
 					numCol = (int)(Math.random()* this.casillas.getCol());		//desde 0 hasta NumColum
 					
 				}while(!this.superficie.checkCasillaVacia(new Casilla(numFil,numCol)) && this.superficie.cuentaCelulas() < this.casillas.getFila()*this.casillas.getCol());
-				superficie.meterCelula(new CelulaCompleja(), new Casilla(numFil,numCol));
+				superficie.meterCelula(new CelulaCompleja(), new Casilla(numFil,numCol), datos);
 			}
-		}else{System.out.println("Numero de celulas excedido. No se puede inicializar el mundo. Se ha creado un mundo vacio");};
+		}else{datos.append("Numero de celulas excedido. No se puede inicializar el mundo. Se ha creado un mundo vacio");};
 
 	}
 
@@ -106,13 +109,13 @@ public class MundoComplejo extends Mundo{
 		{
 			if(tipo.equalsIgnoreCase("SIMPLE"))
 			{
-				this.superficie.meterCelula(new CelulaSimple(), pos);
-				datos.append("Se ha creado una celula simple en" + pos.posToStringBuffer());
+				if(this.superficie.meterCelula(new CelulaSimple(), pos, datos))
+					datos.append("Se ha creado una celula simple en" + pos.posToStringBuffer());
 			}
 			else if(tipo.equalsIgnoreCase("COMPLEJA"))
 			{
-				this.superficie.meterCelula(new CelulaCompleja(), pos);
-				datos.append("Se ha creado una celula compleja en" + pos.posToStringBuffer());
+				if(this.superficie.meterCelula(new CelulaCompleja(), pos, datos))
+					datos.append("Se ha creado una celula compleja en" + pos.posToStringBuffer());
 			}
 			else
 			{
