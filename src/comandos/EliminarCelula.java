@@ -29,7 +29,7 @@ public class EliminarCelula implements Comandos{
 	//=======================================================
 	
 	
-	/** Ejecuta el comando EliminarCelulaSimple  */
+	/** Ejecuta el comando EliminarCelula */
 	
 	@Override
 	public StringBuffer ejecuta(Controlador controlador) 
@@ -39,7 +39,7 @@ public class EliminarCelula implements Comandos{
 			if( (controlador.queCelulaEs(this.posicion) != Superficie.ES_VACIA))
 			{
 				controlador.eliminarCelula(this.posicion);
-				texto.append("Se ha eliminado la celula simple de la posicion" + this.posicion.posToStringBuffer() + "\n");
+				texto.append("Se ha eliminado la celula de la posicion" + this.posicion.posToStringBuffer() + "\n");
 				texto.append(controlador.superficieToStringBuffer());
 			}
 			else
@@ -60,7 +60,7 @@ public class EliminarCelula implements Comandos{
 		//controlamos la excepcion...
 		try
 		{
-			if(cadenaComando.length == 3 && cadenaComando[0].equalsIgnoreCase("ELIMINARCELULASIMPLE")) 
+			if(cadenaComando.length == 3 && cadenaComando[0].equalsIgnoreCase("ELIMINARCELULA")) 
 			{
 					Casilla pos = new Casilla(Integer.parseInt(cadenaComando[1]),Integer.parseInt(cadenaComando[2]));
 					comando = new EliminarCelula(pos);

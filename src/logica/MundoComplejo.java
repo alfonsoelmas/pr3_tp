@@ -78,7 +78,7 @@ public class MundoComplejo extends Mundo{
 				}while(!this.superficie.checkCasillaVacia(new Casilla(numFil,numCol)) && this.superficie.cuentaCelulas() < this.casillas.getFila()*this.casillas.getCol());
 				superficie.meterCelula(new CelulaCompleja(), new Casilla(numFil,numCol));
 			}
-		}
+		}else{System.out.println("Numero de celulas excedido. No se puede inicializar el mundo. Se ha creado un mundo vacio");};
 
 	}
 

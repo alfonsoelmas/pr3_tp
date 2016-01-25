@@ -70,7 +70,7 @@ public class MundoSimple extends Mundo{
 			}
 			else
 			{
-				throw new NumeroCelulasException("Numero de celulas excedido. No se puede inicializar el mundo.");
+				throw new NumeroCelulasException("Numero de celulas excedido. No se puede inicializar el mundo. Se ha creado un mundo vacio");
 			}
 		}catch(NumeroCelulasException e)
 		{
